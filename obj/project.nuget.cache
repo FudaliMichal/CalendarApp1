@@ -1,0 +1,25 @@
+{
+  "version": 2,
+  "dgSpecHash": "2Ahrint7qzFzwgsbIfaWqy25OfvcLPdgPTNDRFptGDvIaJW5UPe0pvkVqmqRQeDLFTBS9lLuTswpK7VKQu3VUw==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Michal\\RiderProjects\\CalendarApp1\\CalendarApp1\\CalendarApp1.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Michal\\.nuget\\packages\\blazor.bootstrap\\2.1.0\\blazor.bootstrap.2.1.0.nupkg.sha512",
+    "C:\\Users\\Michal\\.nuget\\packages\\microsoft.aspnetcore.authorization\\6.0.26\\microsoft.aspnetcore.authorization.6.0.26.nupkg.sha512",
+    "C:\\Users\\Michal\\.nuget\\packages\\microsoft.aspnetcore.components\\6.0.26\\microsoft.aspnetcore.components.6.0.26.nupkg.sha512",
+    "C:\\Users\\Michal\\.nuget\\packages\\microsoft.aspnetcore.components.analyzers\\6.0.26\\microsoft.aspnetcore.components.analyzers.6.0.26.nupkg.sha512",
+    "C:\\Users\\Michal\\.nuget\\packages\\microsoft.aspnetcore.components.forms\\6.0.26\\microsoft.aspnetcore.components.forms.6.0.26.nupkg.sha512",
+    "C:\\Users\\Michal\\.nuget\\packages\\microsoft.aspnetcore.components.quickgrid\\9.0.0-preview.2.24128.4\\microsoft.aspnetcore.components.quickgrid.9.0.0-preview.2.24128.4.nupkg.sha512",
+    "C:\\Users\\Michal\\.nuget\\packages\\microsoft.aspnetcore.components.web\\6.0.26\\microsoft.aspnetcore.components.web.6.0.26.nupkg.sha512",
+    "C:\\Users\\Michal\\.nuget\\packages\\microsoft.aspnetcore.metadata\\6.0.26\\microsoft.aspnetcore.metadata.6.0.26.nupkg.sha512",
+    "C:\\Users\\Michal\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\6.0.1\\microsoft.extensions.dependencyinjection.6.0.1.nupkg.sha512",
+    "C:\\Users\\Michal\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\6.0.0\\microsoft.extensions.dependencyinjection.abstractions.6.0.0.nupkg.sha512",
+    "C:\\Users\\Michal\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\6.0.4\\microsoft.extensions.logging.abstractions.6.0.4.nupkg.sha512",
+    "C:\\Users\\Michal\\.nuget\\packages\\microsoft.extensions.options\\6.0.0\\microsoft.extensions.options.6.0.0.nupkg.sha512",
+    "C:\\Users\\Michal\\.nuget\\packages\\microsoft.extensions.primitives\\6.0.0\\microsoft.extensions.primitives.6.0.0.nupkg.sha512",
+    "C:\\Users\\Michal\\.nuget\\packages\\microsoft.jsinterop\\6.0.26\\microsoft.jsinterop.6.0.26.nupkg.sha512",
+    "C:\\Users\\Michal\\.nuget\\packages\\system.io.pipelines\\6.0.3\\system.io.pipelines.6.0.3.nupkg.sha512",
+    "C:\\Users\\Michal\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

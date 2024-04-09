@@ -1,0 +1,52 @@
+@using CalendarApp1.Models
+@using System.Runtime.InteropServices.JavaScript
+<h3>@CurMonth.MonthName @CurMonth.Year</h3>
+
+<div class="calendar">
+    <div class="cell">Sunday</div>
+    <div class="cell">Monday</div>
+    <div class="cell">Tuesday</div>
+    <div class="cell">Wednesday</div>
+    <div class="cell">Thursday</div>
+    <div class="cell">Friday</div>
+    <div class="cell">Saturday</div>
+    
+    
+    @for (var i = 0; i < CurMonth.StartDay; i++)
+    {
+        <div class="cell"></div>
+    }
+
+    @foreach (var day in @CurMonth.DaysList)
+    {
+        <div class="cell">@day.DateOnly.Day</div>
+    }
+</div>
+
+<Modal @ref="modal" />
+
+<Button Color="ButtonColor.Primary" @onclick="AddEvent">Add Event</Button>
+
+<div class="mt-3 bg-success text-white bg-opacity-75">
+    @message
+</div>
+
+
+
+@code {
+    [Parameter, EditorRequired]
+    public MonthModel CurMonth { get; set; }
+    
+    
+    private Modal modal = default!;
+    private string? message;
+
+    private async Task AddEvent()
+    {
+        // var event = CurMonth.DaysList[1].EventsList.Add(DateTime.Now);
+        // parameters.Add("OnclickCallback", EventCallback.Factory.Create<MouseEventArgs>(this, ShowDTMessage));
+        // await modal.ShowAsync<EmployeeDemoComponent2>(title: "Employee Details", parameters: parameters);
+    }
+
+    private void ShowDTMessage(MouseEventArgs e) => message = $"The current DT is: {DateTime.Now}.";
+}

@@ -1,0 +1,37 @@
+﻿@page "/Calendar"
+@using CalendarApp1.Models
+@rendermode InteractiveServer
+
+
+<PageTitle>Calendar</PageTitle>
+
+<h1>Calendar</h1>
+
+<div class="mb-3">
+    <DateInput TValue="DateOnly" Value="date1" ValueExpression="() => date1" ValueChanged="(value) => DateChanged(value)" />
+</div>
+
+@if (_month is not null)
+{
+    <Month CurMonth="_month"></Month>
+}
+
+
+@code {
+    private MonthModel? _month;
+    
+    private DateOnly date1 = DateOnly.FromDateTime(DateTime.Now);
+
+    private void DateChanged(DateOnly dateOnly)
+    {
+        if (dateOnly == date1)
+        {
+            return;
+        }
+        
+        date1 = dateOnly;
+        _month = new MonthModel(dateOnly);
+        Console.WriteLine($"{dateOnly}\nFirst day of the month is a {(DayOfWeek)_month.StartDay}");
+    }
+    
+}
