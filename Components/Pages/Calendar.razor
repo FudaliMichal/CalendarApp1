@@ -1,5 +1,6 @@
 ﻿@page "/Calendar"
 @using CalendarApp1.Models
+@using System.ComponentModel
 @rendermode InteractiveServer
 
 
@@ -21,6 +22,11 @@
     private MonthModel? _month;
     
     private DateOnly date1 = DateOnly.FromDateTime(DateTime.Now);
+
+    protected override void OnInitialized()
+    {
+        _month = new MonthModel(DateOnly.FromDateTime(DateTime.Now));
+    }
 
     private void DateChanged(DateOnly dateOnly)
     {

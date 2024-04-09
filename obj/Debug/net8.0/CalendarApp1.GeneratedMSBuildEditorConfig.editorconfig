@@ -22,10 +22,6 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xBcHAucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Michal/RiderProjects/CalendarApp1/CalendarApp1/Components/Day.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xEYXkucmF6b3I=
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/Michal/RiderProjects/CalendarApp1/CalendarApp1/Components/Pages/Calendar.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDYWxlbmRhci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
@@ -49,6 +45,10 @@ build_metadata.AdditionalFiles.CssScope =
 [C:/Users/Michal/RiderProjects/CalendarApp1/CalendarApp1/Components/_Imports.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xfSW1wb3J0cy5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Michal/RiderProjects/CalendarApp1/CalendarApp1/Components/Day.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xEYXkucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-kp5q0lghon
 
 [C:/Users/Michal/RiderProjects/CalendarApp1/CalendarApp1/Components/Layout/MainLayout.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTWFpbkxheW91dC5yYXpvcg==

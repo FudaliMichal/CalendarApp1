@@ -19,17 +19,11 @@
 
     @foreach (var day in @CurMonth.DaysList)
     {
-        <div class="cell">@day.DateOnly.Day</div>
+        <Day DayModel="day"></Day>
     }
 </div>
 
-<Modal @ref="modal" />
-
-<Button Color="ButtonColor.Primary" @onclick="AddEvent">Add Event</Button>
-
-<div class="mt-3 bg-success text-white bg-opacity-75">
-    @message
-</div>
+<h4 style="margin-top: -100px">Click on a day to create an event</h4>
 
 
 
@@ -40,13 +34,4 @@
     
     private Modal modal = default!;
     private string? message;
-
-    private async Task AddEvent()
-    {
-        // var event = CurMonth.DaysList[1].EventsList.Add(DateTime.Now);
-        // parameters.Add("OnclickCallback", EventCallback.Factory.Create<MouseEventArgs>(this, ShowDTMessage));
-        // await modal.ShowAsync<EmployeeDemoComponent2>(title: "Employee Details", parameters: parameters);
-    }
-
-    private void ShowDTMessage(MouseEventArgs e) => message = $"The current DT is: {DateTime.Now}.";
 }

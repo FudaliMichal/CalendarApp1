@@ -13,6 +13,7 @@
     <SourceRoot Include="C:\Users\Michal\.nuget\packages\" />
   </ItemGroup>
   <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <Import Project="$(NuGetPackageRoot)microsoft.entityframeworkcore\8.0.2\buildTransitive\net8.0\Microsoft.EntityFrameworkCore.props" Condition="Exists('$(NuGetPackageRoot)microsoft.entityframeworkcore\8.0.2\buildTransitive\net8.0\Microsoft.EntityFrameworkCore.props')" />
     <Import Project="$(NuGetPackageRoot)microsoft.aspnetcore.components.quickgrid\9.0.0-preview.2.24128.4\buildTransitive\Microsoft.AspNetCore.Components.QuickGrid.props" Condition="Exists('$(NuGetPackageRoot)microsoft.aspnetcore.components.quickgrid\9.0.0-preview.2.24128.4\buildTransitive\Microsoft.AspNetCore.Components.QuickGrid.props')" />
     <Import Project="$(NuGetPackageRoot)blazor.bootstrap\2.1.0\buildTransitive\Blazor.Bootstrap.props" Condition="Exists('$(NuGetPackageRoot)blazor.bootstrap\2.1.0\buildTransitive\Blazor.Bootstrap.props')" />
   </ImportGroup>

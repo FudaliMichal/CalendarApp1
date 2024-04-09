@@ -1,7 +1,78 @@
 @using CalendarApp1.Models
-@* <h3>@_day.DateOnly.DayOfWeek.ToString()</h3> *@
+<div class="cell" style="@cellStyle" @onclick="Callback">@DayModel.DateOnly.Day
+    
+    @if (DayModel.EventsList.Count > 3)
+    {
+        <div>
+            see more events
+        </div> 
+    }
+    
+    @foreach (var e in DayModel.EventsList.Take(3))
+    {
+        <h6>
+            @e.EventName - planned hour
+        </h6>
+    }
+    
+    
+</div>
+
+<Modal @ref="modal" Title="@title">
+    <BodyTemplate>
+        <p>
+            Event title:
+            <InputText ValueExpression="() => text" ValueChanged="(value) => text=value"></InputText>
+        </p>
+
+        <p>
+            Event contents:
+            <InputTextArea ValueExpression="() => message" ValueChanged="(value) => message=value"></InputTextArea>
+        </p>
+
+    </BodyTemplate>
+    <FooterTemplate>
+        <Button Color="ButtonColor.Secondary" @onclick="OnHideModalClick">Close</Button>
+        <Button Color="ButtonColor.Primary" @onclick="Callback2">Create Event</Button>
+    </FooterTemplate>
+</Modal>
+
 
 @code {
-    // DayModel _day { get; } = new();
+    [Parameter, EditorRequired]
+    public DayModel DayModel { get; set; }
+
+    private string text;
+    private string message;
     
+    private Modal modal = default!;
+
+    string title = string.Empty;
+
+    string cellStyle => DayModel.DateOnly.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday
+        ? "background-color: lightblue;"
+        : string.Empty;
+
+    private async Task OnShowModalClick()
+    {
+        title = $"Create an event for {DayModel.DateOnly}";
+        await modal.ShowAsync();
+    }
+
+    private async Task OnHideModalClick()
+    {
+        await modal.HideAsync();
+    }
+    
+    private async Task Callback()
+    {
+        await OnShowModalClick();
+    }
+
+    private void Callback2()
+    {
+        DayModel.AddEvent(text,message);
+        Console.WriteLine($"{text}\n{message}");
+    }
+
 }

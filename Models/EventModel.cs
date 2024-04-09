@@ -4,9 +4,9 @@ public class EventModel
 {
     public DateTime Date { get; }
 
-    public string EventName { get; }
+    public string EventName { get; set; }
 
-    public string EventInfo { get; }
+    public string EventInfo { get; set; }
 
     public EventModel(DateTime date)
     {
@@ -14,4 +14,5 @@ public class EventModel
         EventName = string.Empty;
         EventInfo = string.Empty;
     }
+    
 }
