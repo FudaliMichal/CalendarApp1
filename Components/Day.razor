@@ -4,41 +4,55 @@
 
 @namespace CalendarApp1.Components
 
-<div class="cell" style="@cellStyle" @onclick="Callback">@DayModel.DateOnly.Day
+<div class="cell" style="@cellStyle" @onclick="ShowEventModalCallback">@DayModel.DateOnly.Day
+
     
-    @if (DayModel.EventsList.Count > 3)
+    @foreach (var e in DayModel.EventsList.Take(2))
     {
-        <div>
-            see more events
-        </div>
+        <div class="event" @onclick:stopPropagation="true" @onclick="OnShowOffcanvasClick">@e.Date.TimeOfDay - @e.EventName</div>
     }
     
-    @foreach (var e in DayModel.EventsList.Take(3))
+    @if (DayModel.EventsList.Count > 2)
     {
-        <h6>
-            @e.EventName - @e.EventInfo
-        </h6>
+        <div class="event" @onclick:stopPropagation="true" @onclick="OnShowOffcanvasClick">*Click to see more*</div>
     }
-    
     
 </div>
 
-<Modal @ref="modal" Title="@title">
+<Offcanvas @ref="offcanvas">
     <BodyTemplate>
+        <h3>@offcanvasTitle</h3>
+        
+        @foreach (var e in DayModel.EventsList)
+        {
+            <div class="event">@e.Date.TimeOfDay @e.EventName - @e.EventInfo</div>
+        }
+        
+    </BodyTemplate>
+</Offcanvas>
+
+<Modal @ref="modal" Title="@modalTitle">
+    <BodyTemplate>
+        
+        Event time:
         <p>
-            Event title:
-            <InputText ValueExpression="() => text" ValueChanged="(value) => text=value"></InputText>
+            <TimeInput TValue="TimeOnly" @bind-Value="@time"/>
         </p>
 
+        Event title:
         <p>
-            Event contents:
-            <InputTextArea ValueExpression="() => message" ValueChanged="(value) => message=value"></InputTextArea>
+            <InputText ValueExpression="() => text" ValueChanged="(value) => text = value"></InputText>
+        </p>
+
+        Event contents:
+        <p>
+            <InputTextArea ValueExpression="() => message" ValueChanged="(value) => message = value"></InputTextArea>
         </p>
 
     </BodyTemplate>
     <FooterTemplate>
         <Button Color="ButtonColor.Secondary" @onclick="OnHideModalClick">Close</Button>
-        <Button Color="ButtonColor.Primary" @onclick="Callback1">Create Event</Button>
+        <Button Color="ButtonColor.Primary" @onclick="CreateEventCallback">Create Event</Button>
     </FooterTemplate>
 </Modal>
 
@@ -47,13 +61,16 @@
 @code {
     [Parameter, EditorRequired]
     public DayModel DayModel { get; set; }
-
-    private string text;
-    private string message;
+    
+    TimeOnly time;
+    private string text = String.Empty;
+    private string message = String.Empty;
     
     private Modal modal = default!;
+    private Offcanvas offcanvas = default!;
 
-    string title = string.Empty;
+    string modalTitle = string.Empty;
+    string offcanvasTitle = string.Empty;
 
     string cellStyle => DayModel.DateOnly.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday
         ? "background-color: lightblue;"
@@ -61,7 +78,7 @@
 
     private async Task OnShowModalClick()
     {
-        title = $"Create an event for {DayModel.DateOnly}";
+        modalTitle = $"Create an event for {DayModel.DateOnly}";
         await modal.ShowAsync();
     }
 
@@ -70,16 +87,16 @@
         await modal.HideAsync();
     }
     
-    private async Task Callback()
+    private async Task ShowEventModalCallback()
     {
         await OnShowModalClick();
     }
 
-    private async Task Callback1()
+    private async Task CreateEventCallback()
     {
-        await CDbService.EventCreateAsync(DayModel.DateOnly.ToDateTime(TimeOnly.MinValue), text, message);
-        
-        DayModel.EventsList.Add(new EventModel(DayModel.DateOnly.ToDateTime(TimeOnly.MinValue))
+        await CDbService.EventCreateAsync(DayModel.DateOnly.ToDateTime(time), text, message);
+
+        DayModel.EventsList.Add(new EventModel(DayModel.DateOnly.ToDateTime(time))
         {
             EventName = text,
             EventInfo = message
@@ -88,5 +105,13 @@
         await modal.HideAsync();
         StateHasChanged();
     }
+
+    private async Task OnShowOffcanvasClick()
+    {
+        offcanvasTitle = $"Events of {DayModel.DateOnly}:";
+        // StateHasChanged();
+        await offcanvas.ShowAsync();
+        
+    } 
 
 }

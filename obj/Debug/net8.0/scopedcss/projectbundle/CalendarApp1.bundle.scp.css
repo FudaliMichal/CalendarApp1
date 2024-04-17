@@ -4,6 +4,15 @@
     padding: 5px;
     text-align: center;
 }
+.event[b-kp5q0lghon] {
+    border-top: 1px solid #000;
+    padding: 0px;
+    text-align: left;
+    font-size: 15px;
+    margin-left: 10px;
+    margin-right: 10px;
+    word-wrap: break-word;
+}
 /* _content/CalendarApp1/Components/Event.razor.rz.scp.css */
 /* _content/CalendarApp1/Components/Layout/MainLayout.razor.rz.scp.css */
 .page[b-8h57um0zqy] {
@@ -212,7 +221,7 @@ main[b-8h57um0zqy] {
 .calendar[b-c01ubofzcn] {
     display: grid;
     grid-template-columns: repeat(7, 200px);
-    grid-template-rows: 50px 100px 100px 100px 100px 100px 100px;
+    grid-template-rows: 50px 100px 100px 100px 100px 100px 100px 100px;
     gap: 5px;
     margin-bottom: 20px;
 }
