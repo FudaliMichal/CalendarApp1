@@ -1,7 +1,20 @@
+using System.Configuration;
 using CalendarApp1.Components;
+using CalendarApp1.Data;
+using CalendarApp1.Models;
+using CalendarApp1.Services;
+using Microsoft.EntityFrameworkCore;
+
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddBlazorBootstrap();
+
+//Add Calendar services
+builder.Services.AddTransient<CalendarDbService>();
+
+// Add database
+builder.Services.AddDbContext<CalendarDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Add services to the container.
 builder.Services.AddRazorComponents()

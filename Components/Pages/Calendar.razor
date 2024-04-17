@@ -1,6 +1,10 @@
 ﻿@page "/Calendar"
 @using CalendarApp1.Models
 @using System.ComponentModel
+@using CalendarApp1.Data
+@using CalendarApp1.Services
+@using Microsoft.EntityFrameworkCore
+@using Month = CalendarApp1.Components.Month
 @rendermode InteractiveServer
 
 
@@ -12,23 +16,27 @@
     <DateInput TValue="DateOnly" Value="date1" ValueExpression="() => date1" ValueChanged="(value) => DateChanged(value)" />
 </div>
 
+@* <Button @onclick="Callback">Test</Button> *@
+
+
+
 @if (_month is not null)
 {
     <Month CurMonth="_month"></Month>
 }
 
-
+@inject CalendarDbService DbService
 @code {
     private MonthModel? _month;
     
     private DateOnly date1 = DateOnly.FromDateTime(DateTime.Now);
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        _month = new MonthModel(DateOnly.FromDateTime(DateTime.Now));
+        _month = await MonthModel.MonthInfoAsync(date1, DbService);
     }
 
-    private void DateChanged(DateOnly dateOnly)
+    private async Task DateChanged(DateOnly dateOnly)
     {
         if (dateOnly == date1)
         {
@@ -36,8 +44,7 @@
         }
         
         date1 = dateOnly;
-        _month = new MonthModel(dateOnly);
+        _month = await MonthModel.MonthInfoAsync(dateOnly, DbService);
         Console.WriteLine($"{dateOnly}\nFirst day of the month is a {(DayOfWeek)_month.StartDay}");
     }
-    
 }

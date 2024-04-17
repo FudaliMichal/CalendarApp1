@@ -50,6 +50,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xEYXkucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-kp5q0lghon
 
+[C:/Users/Michal/RiderProjects/CalendarApp1/CalendarApp1/Components/Event.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xFdmVudC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = b-ol6isnz12q
+
 [C:/Users/Michal/RiderProjects/CalendarApp1/CalendarApp1/Components/Layout/MainLayout.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xMYXlvdXRcTWFpbkxheW91dC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = b-8h57um0zqy

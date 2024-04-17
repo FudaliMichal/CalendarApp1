@@ -14,7 +14,13 @@
   </ItemGroup>
   <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <Import Project="$(NuGetPackageRoot)microsoft.entityframeworkcore\8.0.2\buildTransitive\net8.0\Microsoft.EntityFrameworkCore.props" Condition="Exists('$(NuGetPackageRoot)microsoft.entityframeworkcore\8.0.2\buildTransitive\net8.0\Microsoft.EntityFrameworkCore.props')" />
+    <Import Project="$(NuGetPackageRoot)microsoft.entityframeworkcore.design\8.0.2\build\net8.0\Microsoft.EntityFrameworkCore.Design.props" Condition="Exists('$(NuGetPackageRoot)microsoft.entityframeworkcore.design\8.0.2\build\net8.0\Microsoft.EntityFrameworkCore.Design.props')" />
     <Import Project="$(NuGetPackageRoot)microsoft.aspnetcore.components.quickgrid\9.0.0-preview.2.24128.4\buildTransitive\Microsoft.AspNetCore.Components.QuickGrid.props" Condition="Exists('$(NuGetPackageRoot)microsoft.aspnetcore.components.quickgrid\9.0.0-preview.2.24128.4\buildTransitive\Microsoft.AspNetCore.Components.QuickGrid.props')" />
+    <Import Project="$(NuGetPackageRoot)entityframework\6.4.4\buildTransitive\netcoreapp3.0\EntityFramework.props" Condition="Exists('$(NuGetPackageRoot)entityframework\6.4.4\buildTransitive\netcoreapp3.0\EntityFramework.props')" />
     <Import Project="$(NuGetPackageRoot)blazor.bootstrap\2.1.0\buildTransitive\Blazor.Bootstrap.props" Condition="Exists('$(NuGetPackageRoot)blazor.bootstrap\2.1.0\buildTransitive\Blazor.Bootstrap.props')" />
   </ImportGroup>
+  <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <PkgMicrosoft_CodeAnalysis_Analyzers Condition=" '$(PkgMicrosoft_CodeAnalysis_Analyzers)' == '' ">C:\Users\Michal\.nuget\packages\microsoft.codeanalysis.analyzers\3.3.3</PkgMicrosoft_CodeAnalysis_Analyzers>
+    <PkgEntityFramework Condition=" '$(PkgEntityFramework)' == '' ">C:\Users\Michal\.nuget\packages\entityframework\6.4.4</PkgEntityFramework>
+  </PropertyGroup>
 </Project>

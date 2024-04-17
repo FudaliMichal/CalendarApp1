@@ -1,17 +1,22 @@
 @using CalendarApp1.Models
+@using CalendarApp1.Data
+@using CalendarApp1.Services
+
+@namespace CalendarApp1.Components
+
 <div class="cell" style="@cellStyle" @onclick="Callback">@DayModel.DateOnly.Day
     
     @if (DayModel.EventsList.Count > 3)
     {
         <div>
             see more events
-        </div> 
+        </div>
     }
     
     @foreach (var e in DayModel.EventsList.Take(3))
     {
         <h6>
-            @e.EventName - planned hour
+            @e.EventName - @e.EventInfo
         </h6>
     }
     
@@ -33,10 +38,11 @@
     </BodyTemplate>
     <FooterTemplate>
         <Button Color="ButtonColor.Secondary" @onclick="OnHideModalClick">Close</Button>
-        <Button Color="ButtonColor.Primary" @onclick="Callback2">Create Event</Button>
+        <Button Color="ButtonColor.Primary" @onclick="Callback1">Create Event</Button>
     </FooterTemplate>
 </Modal>
 
+@inject CalendarDbService CDbService
 
 @code {
     [Parameter, EditorRequired]
@@ -69,10 +75,18 @@
         await OnShowModalClick();
     }
 
-    private void Callback2()
+    private async Task Callback1()
     {
-        DayModel.AddEvent(text,message);
-        Console.WriteLine($"{text}\n{message}");
+        await CDbService.EventCreateAsync(DayModel.DateOnly.ToDateTime(TimeOnly.MinValue), text, message);
+        
+        DayModel.EventsList.Add(new EventModel(DayModel.DateOnly.ToDateTime(TimeOnly.MinValue))
+        {
+            EventName = text,
+            EventInfo = message
+        });
+        
+        await modal.HideAsync();
+        StateHasChanged();
     }
 
 }

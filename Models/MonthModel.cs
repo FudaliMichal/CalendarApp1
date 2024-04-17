@@ -1,37 +1,46 @@
 using CalendarApp1.Components;
+using CalendarApp1.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace CalendarApp1.Models;
 
 public class MonthModel
 {
-    // private int _numOfDays { get; }
-    public int Year { get; }
-    public List<DayModel> DaysList { get; }
-    public string MonthName { get; }
+    public required int Year { get; init; }
+    public required List<DayModel> DaysList { get; init; }
+    public required string MonthName { get; init; }
+    public required int StartDay { get; init; }
     
-    public int StartDay { get; }
 
-    public MonthModel(DateOnly date)
+    public static async Task<MonthModel> MonthInfoAsync(DateOnly date, CalendarDbService dbService)
     {
         var monthSize = DateTime.DaysInMonth(date.Year, date.Month);
-        DaysList = new List<DayModel>(monthSize);
+        var daysList = new List<DayModel>(monthSize);
 
-        Year = date.Year;
+        var year = date.Year;
         
         var month = (MonthName)date.Month;
-        MonthName = month.ToString();
+        var monthName = month.ToString();
 
         var monthBegin = new DateTime(date.Year, date.Month, 1);
-        StartDay = (int) monthBegin.DayOfWeek;
+        var startDay = (int) monthBegin.DayOfWeek;
 
         for (var i = 0; i < monthSize; i++)
         {
             var curDate = DateOnly.FromDateTime(monthBegin.AddDays(i));
-            
-            DaysList.Add(new DayModel(curDate));
-        }
-    }
 
+            daysList.Add(await dbService.DayInfoAsync(curDate));
+        }
+        
+        return new MonthModel()
+        {
+            DaysList = daysList,
+            Year = year,
+            MonthName = monthName,
+            StartDay = startDay
+        };
+    }
+    
 }
 
 public enum MonthName
