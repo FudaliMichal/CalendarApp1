@@ -1,7 +1,35 @@
 ﻿@page "/"
+@using CalendarApp1.Models
+@using CalendarApp1.Services
 
 <PageTitle>Home</PageTitle>
 
-<h1>Incoming events:</h1>
+@if (_month is not null)
+{
+    <h1>Events of @_month.MonthName @date.Year</h1>
+    
+    <div class="scrollable-container">
+        @foreach (var d in _month.DaysList)
+        {
+            @foreach (var e in d.EventsList.OrderBy(x => x.Date))
+            {
+                <div class="event"> @e.Date - @e.EventName - @e.EventInfo </div>
+            }
+        }
+    </div>
+}
+    
+    
+@inject CalendarDbService DbService
+@code
+{
+    DateOnly date = DateOnly.FromDateTime(DateTime.Now);
 
-Event list
+    private MonthModel? _month;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _month = await MonthModel.MonthInfoAsync(date, DbService);
+        _month = MonthModel.DaysToMonth(_month.DaysList, date);
+    }
+}

@@ -1,8 +1,9 @@
 @using CalendarApp1.Models
-@using CalendarApp1.Data
 @using CalendarApp1.Services
 
 @namespace CalendarApp1.Components
+
+@* <Toasts class="p-3" AutoHide="true" Delay="4000" Placement="ToastsPlacement.TopRight" /> *@
 
 <div class="cell" style="@cellStyle" @onclick="ShowEventModalCallback">@DayModel.DateOnly.Day
 
@@ -14,7 +15,7 @@
     
     @if (DayModel.EventsList.Count > 2)
     {
-        <div class="event" @onclick:stopPropagation="true" @onclick="OnShowOffcanvasClick">*Click to see more*</div>
+        <div class="eventblue" @onclick:stopPropagation="true" @onclick="OnShowOffcanvasClick">Click to see more</div>
     }
     
 </div>
@@ -25,7 +26,15 @@
         
         @foreach (var e in DayModel.EventsList)
         {
-            <div class="event">@e.Date.TimeOfDay @e.EventName - @e.EventInfo</div>
+            <div class="eventoff">@e.Date.TimeOfDay @e.EventName - @e.EventInfo
+                <Dropdown>
+                    <DropdownToggleButton></DropdownToggleButton>
+                    <DropdownMenu>
+                        <DropdownItem To="#" Type="ButtonType.Link">Edit</DropdownItem>
+                        <DropdownItem To="#" Type="ButtonType.Link" @onclick="@(() => DeleteEventCallback(e))">Delete</DropdownItem>
+                    </DropdownMenu>
+                </Dropdown>
+            </div>
         }
         
     </BodyTemplate>
@@ -56,9 +65,13 @@
     </FooterTemplate>
 </Modal>
 
-@inject CalendarDbService CDbService
 
+
+@inject CalendarDbService CDbService
+@* @inject ToastService ToastService *@
 @code {
+    [Inject] protected ToastService ToastService { get; set; } = default!;
+    
     [Parameter, EditorRequired]
     public DayModel DayModel { get; set; }
     
@@ -81,10 +94,11 @@
         modalTitle = $"Create an event for {DayModel.DateOnly}";
         await modal.ShowAsync();
     }
-
+    
     private async Task OnHideModalClick()
     {
         await modal.HideAsync();
+        ToastService.Notify(new(ToastType.Danger, $"{DateTime.Now} - Event creation was cancelled."));
     }
     
     private async Task ShowEventModalCallback()
@@ -103,6 +117,7 @@
         });
         
         await modal.HideAsync();
+        ToastService.Notify(new(ToastType.Success, $"{DateTime.Now} - Successfully added an event."));
         StateHasChanged();
     }
 
@@ -112,6 +127,13 @@
         // StateHasChanged();
         await offcanvas.ShowAsync();
         
-    } 
+    }
+
+    private async Task DeleteEventCallback(EventModel e)
+    {
+        DayModel.EventsList.Remove(e);
+        StateHasChanged();
+        await CDbService.DeleteEventAsync(e);
+    }
 
 }

@@ -1,67 +1,17 @@
 ﻿@page "/Info"
-@attribute [StreamRendering]
 
-<PageTitle>Info</PageTitle>
+<PageTitle>Instructions</PageTitle>
 
-<h1>Info</h1>
+<h1>Home Tab</h1>
+<h4>-Shows all the events in current month.</h4>
 
-<p>This component demonstrates showing data.</p>
+<h1>Calendar Tab</h1>
+<h4>-Preview days.</h4>
+<h4>-Create events.</h4>
+<h4>-By clicking on an existing event, see details of a chosen day.</h4>
 
-@if (forecasts == null)
-{
-    <p>
-        <em>Loading...</em>
-    </p>
-}
-else
-{
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Date</th>
-            <th>Temp. (C)</th>
-            <th>Temp. (F)</th>
-            <th>Summary</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var forecast in forecasts)
-        {
-            <tr>
-                <td>@forecast.Date.ToShortDateString()</td>
-                <td>@forecast.TemperatureC</td>
-                <td>@forecast.TemperatureF</td>
-                <td>@forecast.Summary</td>
-            </tr>
-        }
-        </tbody>
-    </table>
-}
-
-@code {
-    private WeatherForecast[]? forecasts;
-
-    protected override async Task OnInitializedAsync()
-    {
-        // Simulate asynchronous loading to demonstrate streaming rendering
-        await Task.Delay(500);
-
-        var startDate = DateOnly.FromDateTime(DateTime.Now);
-        var summaries = new[] { "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching" };
-        forecasts = Enumerable.Range(1, 5).Select(index => new WeatherForecast
-        {
-            Date = startDate.AddDays(index),
-            TemperatureC = Random.Shared.Next(-20, 55),
-            Summary = summaries[Random.Shared.Next(summaries.Length)]
-        }).ToArray();
-    }
-
-    private class WeatherForecast
-    {
-        public DateOnly Date { get; set; }
-        public int TemperatureC { get; set; }
-        public string? Summary { get; set; }
-        public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-    }
-
-}
+<h1>Event Creation</h1>
+<h4>-To create an event, choose a month of your liking on the top.</h4>
+<h4>-Click on a chosen day in month's grid.</h4>
+<h4>-Set the time, title and contents of your event.</h4>
+<h4>-Click "Create event" to save or "cancel" to discard.</h4>

@@ -12,6 +12,13 @@ public class CalendarDbService
     {
         _dbContext = dbContext;
     }
+
+    public async Task DeleteEventAsync(EventModel e)
+    {
+        await _dbContext.Events
+        .Where(x => x.EventName == e.EventName && x.EventInfo == e.EventInfo && x.Date == e.Date)
+        .ExecuteDeleteAsync();
+    }
     
     public async Task EventCreateAsync(DateTime dateTime, string eventTitle, string eventText)
     {

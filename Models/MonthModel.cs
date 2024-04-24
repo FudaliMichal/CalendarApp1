@@ -1,5 +1,6 @@
-using CalendarApp1.Components;
+// using CalendarApp1.Components;
 using CalendarApp1.Services;
+using CalendarApp1.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace CalendarApp1.Models;
@@ -31,6 +32,7 @@ public class MonthModel
 
             daysList.Add(await dbService.DayInfoAsync(curDate));
         }
+
         
         return new MonthModel()
         {
@@ -40,8 +42,37 @@ public class MonthModel
             StartDay = startDay
         };
     }
-    
+
+    public static MonthModel DaysToMonth(List<DayModel> dayList, DateOnly date)
+    {
+        var monthSize = DateTime.DaysInMonth(date.Year, date.Month);
+        var monthBegin = new DateTime(date.Year, date.Month, 1);
+
+        var emptyDays = Enumerable.Range(1, monthSize)
+            .Select(x =>
+            {
+                var curDate = DateOnly.FromDateTime(monthBegin.AddDays(x));
+                return new DayModel(curDate);
+            }).Where(x => dayList.All(y => y.DateOnly != x.DateOnly))
+            .ToList();
+
+        List<DayModel> allDays = new();
+        
+        allDays.AddRange(dayList);
+        allDays.AddRange(emptyDays);
+        
+        return new MonthModel()
+        {
+            DaysList = allDays,
+            Year = date.Year,
+            MonthName = ((MonthName)date.Month).ToString(),
+            StartDay = (int) monthBegin.DayOfWeek
+        };
+    }
 }
+
+
+
 
 public enum MonthName
 {

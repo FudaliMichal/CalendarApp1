@@ -5,11 +5,11 @@ using CalendarApp1.Models;
 using CalendarApp1.Services;
 using Microsoft.EntityFrameworkCore;
 
-
+// Add BlazorBootstrap service
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddBlazorBootstrap();
 
-//Add Calendar services
+// Add Calendar services
 builder.Services.AddTransient<CalendarDbService>();
 
 // Add database
