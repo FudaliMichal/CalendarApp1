@@ -12,6 +12,9 @@ builder.Services.AddBlazorBootstrap();
 // Add Calendar services
 builder.Services.AddTransient<CalendarDbService>();
 
+// Add Weather Api 
+builder.Services.AddTransient<WeatherForecastService>();
+
 // Add database
 builder.Services.AddDbContext<CalendarDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));

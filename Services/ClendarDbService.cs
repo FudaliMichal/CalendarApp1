@@ -19,6 +19,20 @@ public class CalendarDbService
         .Where(x => x.EventName == e.EventName && x.EventInfo == e.EventInfo && x.Date == e.Date)
         .ExecuteDeleteAsync();
     }
+
+    public async Task EditEventAsync(EventModel e, string newTitile, string newMessage, DateTime dateTime)
+    {
+        var result = await _dbContext.Events.AsTracking()
+            .FirstOrDefaultAsync(x => x.EventName == e.EventName && x.EventInfo == e.EventInfo && x.Date == e.Date);
+
+        //handluj nulla
+        
+        result.EventInfo = newMessage;
+        result.EventName = newTitile;
+        result.Date = dateTime;
+        
+        await _dbContext.SaveChangesAsync();
+    }
     
     public async Task EventCreateAsync(DateTime dateTime, string eventTitle, string eventText)
     {

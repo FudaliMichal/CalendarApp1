@@ -1,0 +1,42 @@
+@using CalendarApp1.Models
+<div>
+    
+    Event time:
+    <p>
+        <TimeInput TValue="TimeOnly" @bind-Value="@newtime"/>
+    </p>
+    
+    Event title:
+    <p>
+        <InputText ValueExpression="() => newtext" ValueChanged="(value) => newtext = value"></InputText>
+    </p>
+
+    Event contents:
+    <p>
+        <InputTextArea ValueExpression="() => newmessage" ValueChanged="(value) => newmessage = value"></InputTextArea>
+    </p>
+
+</div>
+
+
+    <Button Color="ButtonColor.Secondary" @onclick="OnHideEditModalClick">Close</Button>
+    <Button Color="ButtonColor.Primary" @onclick="EditEventCallback">Save changes</Button>
+
+@code {
+    [Parameter] public TimeOnly newtime { get; set; }
+    [Parameter] public string newtext { get; set; }
+    [Parameter] public string newmessage { get; set; }
+    [Parameter] public EventModel _event { get; set; }
+    [Parameter] public EventCallback HideEditModal { get; set; }
+    [Parameter] public EventCallback SaveChanges { get; set; }
+
+    private async Task OnHideEditModalClick()
+    {
+        await HideEditModal.InvokeAsync();
+    }
+    
+    private async Task EditEventCallback()
+    {
+        await SaveChanges.InvokeAsync();
+    }
+}

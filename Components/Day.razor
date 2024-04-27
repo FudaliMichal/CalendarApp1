@@ -30,8 +30,8 @@
                 <Dropdown>
                     <DropdownToggleButton></DropdownToggleButton>
                     <DropdownMenu>
-                        <DropdownItem To="#" Type="ButtonType.Link">Edit</DropdownItem>
-                        <DropdownItem To="#" Type="ButtonType.Link" @onclick="@(() => DeleteEventCallback(e))">Delete</DropdownItem>
+                        @* <DropdownItem To="#" Type="ButtonType.Link" @onclick="() => OnShowEditModalClick(e)">Edit</DropdownItem> *@
+                        <DropdownItem To="#" Type="ButtonType.Link" @onclick="() => DeleteEventCallback(e)">Delete</DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
             </div>
@@ -66,11 +66,12 @@
 </Modal>
 
 
+<Modal @ref="editModal" Title="@editModalTitle"/>
+
 
 @inject CalendarDbService CDbService
-@* @inject ToastService ToastService *@
+@inject ToastService ToastService
 @code {
-    [Inject] protected ToastService ToastService { get; set; } = default!;
     
     [Parameter, EditorRequired]
     public DayModel DayModel { get; set; }
@@ -79,10 +80,16 @@
     private string text = String.Empty;
     private string message = String.Empty;
     
+    TimeOnly newtime;
+    private string newtext = String.Empty;
+    private string newmessage = String.Empty;
+    
     private Modal modal = default!;
+    private Modal editModal = default!;
     private Offcanvas offcanvas = default!;
 
     string modalTitle = string.Empty;
+    string editModalTitle = string.Empty;
     string offcanvasTitle = string.Empty;
 
     string cellStyle => DayModel.DateOnly.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday
@@ -95,17 +102,39 @@
         await modal.ShowAsync();
     }
     
-    private async Task OnHideModalClick()
+    private async Task OnShowEditModalClick(EventModel _event)
     {
-        await modal.HideAsync();
-        ToastService.Notify(new(ToastType.Danger, $"{DateTime.Now} - Event creation was cancelled."));
+        editModalTitle = $"Edit event";
+
+        var parameters = new Dictionary<string, object>
+        {
+            { "newtime", newtime },
+            { "newtext", newtext },
+            { "newmessage", newmessage },
+            { "_event", _event },
+            {"HideEditModal", EventCallback.Factory.Create(this, OnHideEditModalClick)},
+            {"SaveChanges", EventCallback.Factory.Create<EventModel>(this, EditEventCallback)}
+        };
+
+        await editModal.ShowAsync<EditModal>(title: "Edit event:", parameters: parameters);
     }
     
     private async Task ShowEventModalCallback()
     {
         await OnShowModalClick();
     }
+    
+    private async Task OnHideModalClick()
+    {
+        await modal.HideAsync();
+        ToastService.Notify(new(ToastType.Danger, $"{DateTime.Now} - Event creation was cancelled."));
+    }
 
+    private async Task OnHideEditModalClick()
+    {
+        await editModal.HideAsync();
+    }
+    
     private async Task CreateEventCallback()
     {
         await CDbService.EventCreateAsync(DayModel.DateOnly.ToDateTime(time), text, message);
@@ -134,6 +163,12 @@
         DayModel.EventsList.Remove(e);
         StateHasChanged();
         await CDbService.DeleteEventAsync(e);
+    }
+
+    private async Task EditEventCallback(EventModel _event)
+    {
+        await CDbService.EditEventAsync(_event, newtext, newmessage, DayModel.DateOnly.ToDateTime(newtime));
+        await OnHideEditModalClick();
     }
 
 }

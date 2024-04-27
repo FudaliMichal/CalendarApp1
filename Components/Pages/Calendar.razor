@@ -30,7 +30,6 @@
     protected override async Task OnInitializedAsync()
     {
         _month = await MonthModel.MonthInfoAsync(date1, DbService);
-        // _month = MonthModel.DaysToMonth(_month.DaysList, date1);
     }
 
     private async Task DateChanged(DateOnly dateOnly)

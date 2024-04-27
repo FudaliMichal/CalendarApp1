@@ -1,0 +1,55 @@
+@page "/Weather"
+@using CalendarApp1.Models
+@using CalendarApp1.Services
+@attribute [StreamRendering]
+
+<PageTitle>Weather</PageTitle>
+
+<h1>Weather in Wroclaw</h1>
+
+
+@if (forecasts == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{   
+    <div class="mb-3">
+        <DateInput TValue="DateOnly" @bind-Value="@startDate" Placeholder="Enter Date" />
+    </div>
+    
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Date</th>
+            <th>Day of week</th>
+            <th>Temp. (C)</th>
+            <th>Summary</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var forecast in forecasts)
+        {
+            <tr>
+                <td>@forecast.Date.ToShortDateString()</td>
+                <td>@forecast.Date.DayOfWeek.ToString()</td>
+                <td>@forecast.TemperatureC</td>
+                <td>@forecast.Summary</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@inject WeatherForecastService ForecastService;
+@code
+{
+    private List<WeatherForecast> forecasts;
+    
+    DateOnly startDate = DateOnly.FromDateTime(DateTime.Today);
+
+    protected override async Task OnInitializedAsync()
+    {
+        forecasts = await ForecastService.GetForecastAsync(startDate);
+    }
+}
