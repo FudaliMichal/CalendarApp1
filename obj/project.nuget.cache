@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "R+1lnZCv+RWsyu/FZHV3TPji8F8D+p2haKjoh+Nvgk8werYEArhMdUmrQFL9g+lSm8VJuY21QoWG9XA7DPJgYw==",
+  "dgSpecHash": "oY/TdgnSTgvhXZn76pT4cGig8DBvYHL02kn/apBmPn7b61tf0v0gfugr38/hPJbUoFqrqfGQx2ndjBUutf0qVw==",
   "success": true,
   "projectFilePath": "C:\\Users\\Michal\\RiderProjects\\CalendarApp1\\CalendarApp1\\CalendarApp1.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Michal\\.nuget\\packages\\blazor.bootstrap\\2.1.0\\blazor.bootstrap.2.1.0.nupkg.sha512",
+    "C:\\Users\\Michal\\.nuget\\packages\\doxygen\\1.8.14\\doxygen.1.8.14.nupkg.sha512",
     "C:\\Users\\Michal\\.nuget\\packages\\entityframework\\6.4.4\\entityframework.6.4.4.nupkg.sha512",
     "C:\\Users\\Michal\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\Michal\\.nuget\\packages\\microsoft.aspnetcore.authorization\\6.0.26\\microsoft.aspnetcore.authorization.6.0.26.nupkg.sha512",

@@ -9,6 +9,7 @@
       "CalendarApp1/1.0.0": {
         "dependencies": {
           "Blazor.Bootstrap": "2.1.0",
+          "Doxygen": "1.8.14",
           "EntityFramework": "6.4.4",
           "Microsoft.AspNetCore.Components.QuickGrid": "9.0.0-preview.2.24128.4",
           "Microsoft.EntityFrameworkCore": "8.0.2",
@@ -31,6 +32,7 @@
           }
         }
       },
+      "Doxygen/1.8.14": {},
       "EntityFramework/6.4.4": {
         "dependencies": {
           "Microsoft.CSharp": "4.7.0",
@@ -747,6 +749,13 @@
       "sha512": "sha512-+pA/NNPjyRmpzVYtIE+DuONMciyiSGxzj0s1vojKTpr8E7/96IE82ptUBFK4Sqi8nuagrxtYADOCjgsT5ZTz9A==",
       "path": "blazor.bootstrap/2.1.0",
       "hashPath": "blazor.bootstrap.2.1.0.nupkg.sha512"
+    },
+    "Doxygen/1.8.14": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-2a9Cx5QwwZC3D5tFvRQdSNdjVSIA7INtnHbxq9ogkrbkTBI5XZiS0oI5cln6aNL3M1YuVbGZL2YHIMThbVJRwQ==",
+      "path": "doxygen/1.8.14",
+      "hashPath": "doxygen.1.8.14.nupkg.sha512"
     },
     "EntityFramework/6.4.4": {
       "type": "package",

@@ -20,6 +20,9 @@
           "buildMultiTargeting/Blazor.Bootstrap.props": {}
         }
       },
+      "Doxygen/1.8.14": {
+        "type": "package"
+      },
       "EntityFramework/6.4.4": {
         "type": "package",
         "dependencies": {
@@ -1341,6 +1344,20 @@
         "staticwebassets/icon/128X128.png",
         "staticwebassets/pdfjs-4.0.379.min.mjs",
         "staticwebassets/pdfjs-4.0.379.worker.min.mjs"
+      ]
+    },
+    "Doxygen/1.8.14": {
+      "sha512": "2a9Cx5QwwZC3D5tFvRQdSNdjVSIA7INtnHbxq9ogkrbkTBI5XZiS0oI5cln6aNL3M1YuVbGZL2YHIMThbVJRwQ==",
+      "type": "package",
+      "path": "doxygen/1.8.14",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "doxygen.1.8.14.nupkg.sha512",
+        "doxygen.nuspec",
+        "tools/doxygen.exe",
+        "tools/libclang.dll"
       ]
     },
     "EntityFramework/6.4.4": {
@@ -3578,6 +3595,7 @@
   "projectFileDependencyGroups": {
     "net8.0": [
       "Blazor.Bootstrap >= 2.1.0",
+      "Doxygen >= 1.8.14",
       "EntityFramework >= 6.4.4",
       "Microsoft.AspNetCore.Components.QuickGrid >= 9.0.0-preview.2.24128.4",
       "Microsoft.EntityFrameworkCore >= 8.0.2",
@@ -3626,6 +3644,12 @@
           "Blazor.Bootstrap": {
             "target": "Package",
             "version": "[2.1.0, )"
+          },
+          "Doxygen": {
+            "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+            "suppressParent": "All",
+            "target": "Package",
+            "version": "[1.8.14, )"
           },
           "EntityFramework": {
             "target": "Package",
