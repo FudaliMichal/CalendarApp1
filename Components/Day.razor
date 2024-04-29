@@ -3,8 +3,6 @@
 
 @namespace CalendarApp1.Components
 
-@* <Toasts class="p-3" AutoHide="true" Delay="4000" Placement="ToastsPlacement.TopRight" /> *@
-
 <div class="cell" style="@cellStyle" @onclick="ShowEventModalCallback">@DayModel.DateOnly.Day
 
     
@@ -20,9 +18,9 @@
     
 </div>
 
-<Offcanvas @ref="offcanvas">
+<Offcanvas @ref="_offcanvas">
     <BodyTemplate>
-        <h3>@offcanvasTitle</h3>
+        <h3>@_offcanvasTitle</h3>
         
         @foreach (var e in DayModel.EventsList)
         {
@@ -40,22 +38,23 @@
     </BodyTemplate>
 </Offcanvas>
 
-<Modal @ref="modal" Title="@modalTitle">
+
+<Modal @ref="_modal" Title="@_modalTitle">
     <BodyTemplate>
         
         Event time:
         <p>
-            <TimeInput TValue="TimeOnly" @bind-Value="@time"/>
+            <TimeInput TValue="TimeOnly" @bind-Value="@_time"/>
         </p>
 
         Event title:
         <p>
-            <InputText ValueExpression="() => text" ValueChanged="(value) => text = value"></InputText>
+            <InputText ValueExpression="() => _text" ValueChanged="(value) => _text = value"></InputText>
         </p>
 
         Event contents:
         <p>
-            <InputTextArea ValueExpression="() => message" ValueChanged="(value) => message = value"></InputTextArea>
+            <InputTextArea ValueExpression="() => _message" ValueChanged="(value) => _message = value"></InputTextArea>
         </p>
 
     </BodyTemplate>
@@ -66,7 +65,7 @@
 </Modal>
 
 
-<Modal @ref="editModal" Title="@editModalTitle"/>
+<Modal @ref="_editModal" Title="@_editModalTitle"/>
 
 
 @inject CalendarDbService CDbService
@@ -74,23 +73,23 @@
 @code {
     
     [Parameter, EditorRequired]
-    public DayModel DayModel { get; set; }
+    public DayModel? DayModel { get; set; }
     
-    TimeOnly time;
-    private string text = String.Empty;
-    private string message = String.Empty;
+    private Modal _modal = default!;
+    private string _modalTitle = string.Empty;
+    private TimeOnly _time;
+    private string _text = String.Empty;
+    private string _message = String.Empty;
     
-    TimeOnly newtime;
-    private string newtext = String.Empty;
-    private string newmessage = String.Empty;
+    private Modal _editModal = default!;
+    private string _editModalTitle = string.Empty;
+    private TimeOnly _newtime;
+    private string _newtext = String.Empty;
+    private string _newmessage = String.Empty;
     
-    private Modal modal = default!;
-    private Modal editModal = default!;
-    private Offcanvas offcanvas = default!;
-
-    string modalTitle = string.Empty;
-    string editModalTitle = string.Empty;
-    string offcanvasTitle = string.Empty;
+    private Offcanvas _offcanvas = default!;
+    private string _offcanvasTitle = string.Empty;
+    
 
     string cellStyle => DayModel.DateOnly.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday
         ? "background-color: lightblue;"
@@ -98,25 +97,25 @@
 
     private async Task OnShowModalClick()
     {
-        modalTitle = $"Create an event for {DayModel.DateOnly}";
-        await modal.ShowAsync();
+        _modalTitle = $"Create an event for {DayModel.DateOnly}";
+        await _modal.ShowAsync();
     }
     
     private async Task OnShowEditModalClick(EventModel _event)
     {
-        editModalTitle = $"Edit event";
+        _editModalTitle = $"Edit event";
 
         var parameters = new Dictionary<string, object>
         {
-            { "newtime", newtime },
-            { "newtext", newtext },
-            { "newmessage", newmessage },
+            { "newtime", _newtime },
+            { "newtext", _newtext },
+            { "newmessage", _newmessage },
             { "_event", _event },
             {"HideEditModal", EventCallback.Factory.Create(this, OnHideEditModalClick)},
             {"SaveChanges", EventCallback.Factory.Create<EventModel>(this, EditEventCallback)}
         };
 
-        await editModal.ShowAsync<EditModal>(title: "Edit event:", parameters: parameters);
+        await _editModal.ShowAsync<EditModal>(title: "Edit event:", parameters: parameters);
     }
     
     private async Task ShowEventModalCallback()
@@ -126,48 +125,47 @@
     
     private async Task OnHideModalClick()
     {
-        await modal.HideAsync();
-        ToastService.Notify(new(ToastType.Danger, $"{DateTime.Now} - Event creation was cancelled."));
+        await _modal.HideAsync();
+        ToastService.Notify(new ToastMessage(ToastType.Danger, "Event creation was cancelled."));
     }
 
     private async Task OnHideEditModalClick()
     {
-        await editModal.HideAsync();
+        await _editModal.HideAsync();
     }
     
     private async Task CreateEventCallback()
     {
-        await CDbService.EventCreateAsync(DayModel.DateOnly.ToDateTime(time), text, message);
+        await CDbService.EventCreateAsync(DayModel.DateOnly.ToDateTime(_time), _text, _message);
 
-        DayModel.EventsList.Add(new EventModel(DayModel.DateOnly.ToDateTime(time))
+        DayModel.EventsList.Add(new EventModel(DayModel.DateOnly.ToDateTime(_time))
         {
-            EventName = text,
-            EventInfo = message
+            EventName = _text,
+            EventInfo = _message
         });
         
-        await modal.HideAsync();
-        ToastService.Notify(new(ToastType.Success, $"{DateTime.Now} - Successfully added an event."));
+        await _modal.HideAsync();
+        ToastService.Notify(new(ToastType.Success, "Successfully added an event."));
         StateHasChanged();
     }
 
     private async Task OnShowOffcanvasClick()
     {
-        offcanvasTitle = $"Events of {DayModel.DateOnly}:";
-        // StateHasChanged();
-        await offcanvas.ShowAsync();
+        _offcanvasTitle = $"Events of {DayModel.DateOnly}:";
+        await _offcanvas.ShowAsync();
         
     }
 
     private async Task DeleteEventCallback(EventModel e)
     {
         DayModel.EventsList.Remove(e);
-        StateHasChanged();
         await CDbService.DeleteEventAsync(e);
+        ToastService.Notify(new ToastMessage(ToastType.Warning, "Deleted event."));
     }
 
     private async Task EditEventCallback(EventModel _event)
     {
-        await CDbService.EditEventAsync(_event, newtext, newmessage, DayModel.DateOnly.ToDateTime(newtime));
+        await CDbService.EditEventAsync(_event, _newtext, _newmessage, DayModel.DateOnly.ToDateTime(_newtime));
         await OnHideEditModalClick();
     }
 

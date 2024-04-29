@@ -1,10 +1,10 @@
-// using CalendarApp1.Components;
 using CalendarApp1.Services;
-using CalendarApp1.Data;
-using Microsoft.EntityFrameworkCore;
 
 namespace CalendarApp1.Models;
 
+/// <summary>
+/// Class representing a month and its properties - year, list of days, name, name of the first day.
+/// </summary>
 public class MonthModel
 {
     public required int Year { get; init; }
@@ -12,7 +12,12 @@ public class MonthModel
     public required string MonthName { get; init; }
     public required int StartDay { get; init; }
     
-
+    /// <summary>
+    /// Method used to populate a month model with days from database.
+    /// </summary>
+    /// <param name="date">Date of chosen month</param>
+    /// <param name="dbService"> Database service</param>
+    /// <returns>MonthModel</returns>
     public static async Task<MonthModel> MonthInfoAsync(DateOnly date, CalendarDbService dbService)
     {
         var monthSize = DateTime.DaysInMonth(date.Year, date.Month);
@@ -43,6 +48,12 @@ public class MonthModel
         };
     }
 
+    /// <summary>
+    /// Method used to populate the month with both empty days and base with contents from database.
+    /// </summary>
+    /// <param name="dayList">List of days that are not empty.</param>
+    /// <param name="date">Date of the month you want to populate.</param>
+    /// <returns>Populated MonthModel</returns>
     public static MonthModel DaysToMonth(List<DayModel> dayList, DateOnly date)
     {
         var monthSize = DateTime.DaysInMonth(date.Year, date.Month);
@@ -73,7 +84,9 @@ public class MonthModel
 
 
 
-
+/// <summary>
+/// Enum used to conveniently choose names of months.
+/// </summary>
 public enum MonthName
 {
     January = 1,

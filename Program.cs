@@ -10,10 +10,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddBlazorBootstrap();
 
 // Add Calendar services
-builder.Services.AddTransient<CalendarDbService>();
+builder.Services.AddScoped<CalendarDbService>();
 
 // Add Weather Api 
 builder.Services.AddTransient<WeatherForecastService>();
+
+builder.Services.AddHttpClient();
 
 // Add database
 builder.Services.AddDbContext<CalendarDbContext>(options =>

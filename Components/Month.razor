@@ -1,5 +1,4 @@
 @using CalendarApp1.Models
-@using System.Runtime.InteropServices.JavaScript
 <h3>@CurMonth.MonthName @CurMonth.Year</h3>
 
 <div class="calendar">
@@ -27,8 +26,6 @@
 @code {
     [Parameter, EditorRequired]
     public MonthModel CurMonth { get; set; }
-
-    
     
     private Modal modal = default!;
     private string? message;

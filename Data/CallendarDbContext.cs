@@ -2,6 +2,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CalendarApp1.Data;
 
+/// <summary>
+/// Class representing database tables.
+/// </summary>
 public class CalendarDbContext : DbContext
 {
     public CalendarDbContext(DbContextOptions<CalendarDbContext> options) : base(options)

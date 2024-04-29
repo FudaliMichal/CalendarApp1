@@ -3,7 +3,6 @@
 @using CalendarApp1.Models
 @using CalendarApp1.Services
 @using Month = CalendarApp1.Components.Month
-@rendermode InteractiveServer
 @layout MainLayout
 
 
@@ -12,7 +11,7 @@
 <h1>Calendar</h1>
 
 <div class="mb-3">
-    <DateInput TValue="DateOnly" Value="date1" ValueExpression="() => date1" ValueChanged="(value) => DateChanged(value)" />
+    <DateInput TValue="DateOnly" Value="_date1" ValueExpression="() => _date1" ValueChanged="(value) => DateChanged(value)" />
 </div>
 
 @if (_month is not null)
@@ -25,21 +24,27 @@
 @code {
     private MonthModel? _month;
     
-    private DateOnly date1 = DateOnly.FromDateTime(DateTime.Now);
+    private DateOnly _date1 = DateOnly.FromDateTime(DateTime.Now);
 
+    /// <summary>
+    /// Get a month model that includes today's date.
+    /// </summary>
     protected override async Task OnInitializedAsync()
     {
-        _month = await MonthModel.MonthInfoAsync(date1, DbService);
+        _month = await MonthModel.MonthInfoAsync(_date1, DbService);
     }
 
+    /// <summary>
+    /// Get a month model that includes chosen date.
+    /// </summary>
     private async Task DateChanged(DateOnly dateOnly)
     {
-        if (dateOnly == date1)
+        if (dateOnly == _date1)
         {
             return;
         }
         
-        date1 = dateOnly;
+        _date1 = dateOnly;
         _month = await MonthModel.MonthInfoAsync(dateOnly, DbService);
         // Console.WriteLine($"{dateOnly}\nFirst day of the month is a {(DayOfWeek)_month.StartDay}");
     }

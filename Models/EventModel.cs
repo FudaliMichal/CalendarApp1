@@ -2,6 +2,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CalendarApp1.Models;
 
+/// <summary>
+/// Class representing an event and its properties - date, title and contents.
+/// </summary>
 public class EventModel
 {
     public DateTime Date { get; }
